@@ -4,28 +4,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.kata.spring.boot_security.demo.service.UserServiceImp;
+import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.security.Principal;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/user")
 public class UserController {
 
-    private UserServiceImp userServiceImp;
+    private UserService userService;
 
-    public UserController(UserServiceImp userServiceImp) {
-        this.userServiceImp = userServiceImp;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping
-    public String getStart() {
-        return "user/start";
-    }
-
-    @GetMapping("/user")
     public String getUserInfo(Model model, Principal principal) {
-        model.addAttribute("user", userServiceImp.getUserByUsername(principal.getName()));
+        model.addAttribute("user", userService.getUserByUsername(principal.getName()));
         return "user/user";
     }
 }
